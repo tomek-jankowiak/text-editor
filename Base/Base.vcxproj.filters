@@ -1,0 +1,192 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Base">
+      <UniqueIdentifier>{92ce6e65-5e2b-4134-ba4f-3e94aa74e3ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="mcedit">
+      <UniqueIdentifier>{3dbb811b-e2cd-4066-90d0-d56811ee3c0d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BaseBackend.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseTool.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mcedit\AlertMode.h">
+      <Filter>mcedit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mcedit\Bind.h">
+      <Filter>mcedit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mcedit\ClickHandler.h">
+      <Filter>mcedit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mcedit\colors.h">
+      <Filter>mcedit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mcedit\HelpMode.h">
+      <Filter>mcedit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mcedit\Input.h">
+      <Filter>mcedit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mcedit\Item.h">
+      <Filter>mcedit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mcedit\ItemPosition.h">
+      <Filter>mcedit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mcedit\Key.h">
+      <Filter>mcedit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mcedit\KeyboardKey.h">
+      <Filter>mcedit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mcedit\margins.h">
+      <Filter>mcedit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mcedit\MceditBackend.h">
+      <Filter>mcedit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mcedit\Menu.h">
+      <Filter>mcedit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mcedit\MenuData.h">
+      <Filter>mcedit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mcedit\MenuPositioner.h">
+      <Filter>mcedit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mcedit\Mode.h">
+      <Filter>mcedit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mcedit\MouseKey.h">
+      <Filter>mcedit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mcedit\NormalMode.h">
+      <Filter>mcedit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mcedit\OptionItem.h">
+      <Filter>mcedit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mcedit\ParamMode.h">
+      <Filter>mcedit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mcedit\ParsedBind.h">
+      <Filter>mcedit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mcedit\ResizeKey.h">
+      <Filter>mcedit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mcedit\Terminal.h">
+      <Filter>mcedit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mcedit\TooSmallMode.h">
+      <Filter>mcedit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mcedit\TopItem.h">
+      <Filter>mcedit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mcedit\Window.h">
+      <Filter>mcedit</Filter>
+    </ClInclude>
+    <ClInclude Include="TextEditorTool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Buffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\mcedit\AlertMode.cpp">
+      <Filter>mcedit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\mcedit\Bind.cpp">
+      <Filter>mcedit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\mcedit\ClickHandler.cpp">
+      <Filter>mcedit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\mcedit\HelpMode.cpp">
+      <Filter>mcedit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\mcedit\Input.cpp">
+      <Filter>mcedit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\mcedit\KeyboardKey.cpp">
+      <Filter>mcedit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\mcedit\MceditBackend.cpp">
+      <Filter>mcedit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\mcedit\Menu.cpp">
+      <Filter>mcedit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\mcedit\MenuData.cpp">
+      <Filter>mcedit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\mcedit\MenuPositioner.cpp">
+      <Filter>mcedit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\mcedit\MouseKey.cpp">
+      <Filter>mcedit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\mcedit\NormalMode.cpp">
+      <Filter>mcedit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\mcedit\OptionItem.cpp">
+      <Filter>mcedit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\mcedit\ParamMode.cpp">
+      <Filter>mcedit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\mcedit\ParsedBind.cpp">
+      <Filter>mcedit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\mcedit\ResizeKey.cpp">
+      <Filter>mcedit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\mcedit\Terminal.cpp">
+      <Filter>mcedit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\mcedit\TooSmallMode.cpp">
+      <Filter>mcedit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\mcedit\TopItem.cpp">
+      <Filter>mcedit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\mcedit\Window.cpp">
+      <Filter>mcedit</Filter>
+    </ClCompile>
+    <ClCompile Include="TextEditorTool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Buffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{BE7A64DC-0CF6-4918-B619-6C2FA8037191}</ProjectGuid>
+    <RootNamespace>Base</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(SolutionDir)PDCurses;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)PDCurses\wincon;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>$(SolutionDir)PDCurses;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)PDCurses\wincon;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(SolutionDir)PDCurses;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)PDCurses\wincon;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(SolutionDir)PDCurses;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)PDCurses\wincon;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>pdcurses.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>pdcurses.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>pdcurses.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>pdcurses.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\mcedit\AlertMode.h" />
+    <ClInclude Include="..\mcedit\Bind.h" />
+    <ClInclude Include="..\mcedit\ClickHandler.h" />
+    <ClInclude Include="..\mcedit\colors.h" />
+    <ClInclude Include="..\mcedit\HelpMode.h" />
+    <ClInclude Include="..\mcedit\Input.h" />
+    <ClInclude Include="..\mcedit\Item.h" />
+    <ClInclude Include="..\mcedit\ItemPosition.h" />
+    <ClInclude Include="..\mcedit\Key.h" />
+    <ClInclude Include="..\mcedit\KeyboardKey.h" />
+    <ClInclude Include="..\mcedit\margins.h" />
+    <ClInclude Include="..\mcedit\MceditBackend.h" />
+    <ClInclude Include="..\mcedit\Menu.h" />
+    <ClInclude Include="..\mcedit\MenuData.h" />
+    <ClInclude Include="..\mcedit\MenuPositioner.h" />
+    <ClInclude Include="..\mcedit\Mode.h" />
+    <ClInclude Include="..\mcedit\MouseKey.h" />
+    <ClInclude Include="..\mcedit\NormalMode.h" />
+    <ClInclude Include="..\mcedit\OptionItem.h" />
+    <ClInclude Include="..\mcedit\ParamMode.h" />
+    <ClInclude Include="..\mcedit\ParsedBind.h" />
+    <ClInclude Include="..\mcedit\ResizeKey.h" />
+    <ClInclude Include="..\mcedit\Terminal.h" />
+    <ClInclude Include="..\mcedit\TooSmallMode.h" />
+    <ClInclude Include="..\mcedit\TopItem.h" />
+    <ClInclude Include="..\mcedit\Window.h" />
+    <ClInclude Include="BaseBackend.h" />
+    <ClInclude Include="BaseTool.h" />
+    <ClInclude Include="Buffer.h" />
+    <ClInclude Include="Editor.h" />
+    <ClInclude Include="TextEditorTool.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\mcedit\AlertMode.cpp" />
+    <ClCompile Include="..\mcedit\Bind.cpp" />
+    <ClCompile Include="..\mcedit\ClickHandler.cpp" />
+    <ClCompile Include="..\mcedit\HelpMode.cpp" />
+    <ClCompile Include="..\mcedit\Input.cpp" />
+    <ClCompile Include="..\mcedit\KeyboardKey.cpp" />
+    <ClCompile Include="..\mcedit\MceditBackend.cpp" />
+    <ClCompile Include="..\mcedit\Menu.cpp" />
+    <ClCompile Include="..\mcedit\MenuData.cpp" />
+    <ClCompile Include="..\mcedit\MenuPositioner.cpp" />
+    <ClCompile Include="..\mcedit\MouseKey.cpp" />
+    <ClCompile Include="..\mcedit\NormalMode.cpp" />
+    <ClCompile Include="..\mcedit\OptionItem.cpp" />
+    <ClCompile Include="..\mcedit\ParamMode.cpp" />
+    <ClCompile Include="..\mcedit\ParsedBind.cpp" />
+    <ClCompile Include="..\mcedit\ResizeKey.cpp" />
+    <ClCompile Include="..\mcedit\Terminal.cpp" />
+    <ClCompile Include="..\mcedit\TooSmallMode.cpp" />
+    <ClCompile Include="..\mcedit\TopItem.cpp" />
+    <ClCompile Include="..\mcedit\Window.cpp" />
+    <ClCompile Include="Buffer.cpp" />
+    <ClCompile Include="Editor.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="TextEditorTool.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
