@@ -35,7 +35,6 @@ Editor::Editor(WINDOW* scr, std::string name)
 Editor::~Editor()
 {
 	delete buff;
-	delete window;
 }
 
 void Editor::moveUp()
@@ -209,12 +208,6 @@ void Editor::handleInput(std::string key)
 		buff->lines[y].insert(x, 4, ' ');
 		x += 4;
 	}
-
-	else if (key == "<CTRL+Z>")
-		buff->handleChange(0);
-	
-	else if (key == "<CTRL+Y>")
-		buff->handleChange(1);
 
 	else
 	{

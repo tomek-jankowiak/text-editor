@@ -12,7 +12,6 @@ TextEditorTool::TextEditorTool()
 
 TextEditorTool::~TextEditorTool()
 {
-	delete this->window;
 	delete this->editor;
 }
 
@@ -106,7 +105,7 @@ void TextEditorTool::editionHandler()
 	else if (std::regex_match(key, result, cords))
 	{
 		int tempX, tempY;
-		
+
 		tempX = atoi(key.substr(1, key.find(",") - 1).c_str());
 		tempY = atoi(key.substr(key.find(",") + 1, (key.length() - key.find(",") - 2)).c_str());
 
@@ -123,6 +122,11 @@ void TextEditorTool::editionHandler()
 			this->editor->printBuff();
 		}
 	}
+	else if (key == "<CTRL+Z>")
+		editor->handleUndoRedo(0);
+
+	else if (key == "<CTRL+Y>")
+		editor->handleUndoRedo(1);
 	else
 	{
 		this->editor->handleInput(key);

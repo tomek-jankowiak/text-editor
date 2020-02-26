@@ -121,6 +121,7 @@ void ParamMode::delWindow()
 {
 	wclear(window);
 	delwin(window);
+	window = nullptr;
 }
 
 
