@@ -7,18 +7,19 @@
 
 TextEditorTool::TextEditorTool()
 {
-	this->window = nullptr;
+	window = nullptr;
+	errorWindow = nullptr;
 }
 
 TextEditorTool::~TextEditorTool()
 {
-	delete this->editor;
+	delete editor;
 }
 
 std::string TextEditorTool::getEntry(const std::string& key) const
 {
 	try {
-		return this->entries.at(key);
+		return entries.at(key);
 	}
 	catch (std::out_of_range&) {
 		throw BaseTool::UndefinedEntry();
@@ -27,20 +28,20 @@ std::string TextEditorTool::getEntry(const std::string& key) const
 
 void TextEditorTool::setEntry(const std::string& key, const std::string& value)
 {
-	this->entries[key] = value;
+	entries[key] = value;
 }
 
 void TextEditorTool::assignWindow(WINDOW* windowptr)
 {
-	this->window = windowptr;
+	window = windowptr;
 }
 
 void TextEditorTool::newFile()
 {
 	if (editor)
 		delete editor;
-	this->editor = new Editor(this->window);
-	wclear(this->window);
+	editor = new Editor(window);
+	wclear(window);
 	wrefresh(window);
 }
 
@@ -48,31 +49,50 @@ void TextEditorTool::openFile()
 {
 	if (editor)
 		delete editor;
-	this->fileName = getEntry("fileName");
-	this->editor = new Editor(this->window, this->fileName);
-	fileOpened = true;
-	wclear(this->window);
-	wrefresh(window);
-	this->editor->printBuff();
+	fileName = getEntry("fileName");
+	try
+	{
+		editor = new Editor(window, fileName);
+		fileOpened = true;
+		wclear(window);
+		wrefresh(window);
+		editor->printBuff(false);
+	}
+	catch (Editor::FileNotFound)
+	{
+		wclear(window);
+		errorWindow = alert.alertMsg(window, "Wrong file name!");
+		return;
+	}
 }
 
 void TextEditorTool::saveFile()
 {
-	this->editor->saveFile();
+	try
+	{
+		editor->saveFile();
+	}
+	catch (Editor::FileNotFound)
+	{
+		errorWindow = alert.alertMsg(window, "File untitled! Try Save As instead");
+		return;
+	}
+	setEntry("IS_SAVED", "YES");
+	
 }
 
 void TextEditorTool::saveFileAs()
 {
-	this->saveFileName = getEntry("fileName");
-	this->editor->saveFile(this->saveFileName);
-	this->setEntry("IS_SAVED", "YES");
+	saveFileName = getEntry("fileName");
+	editor->saveFile(saveFileName);
+	setEntry("IS_SAVED", "YES");
 }
 
 void TextEditorTool::undo()
 {
 	wclear(window);
 	editor->handleUndoRedo(0);
-	editor->printBuff();
+	editor->printBuff(false);
 	wrefresh(window);
 }
 
@@ -80,19 +100,46 @@ void TextEditorTool::redo()
 {
 	wclear(window);
 	editor->handleUndoRedo(1);
-	editor->printBuff();
+	editor->printBuff(false);
 	wrefresh(window);
 }
 
 void TextEditorTool::jumpTo()
 {
-	int line = atoi(getEntry("lineNumber").c_str());
-	editor->jumpToLine(line);
+	try
+	{
+		int line = atoi(getEntry("lineNumber").c_str());
+		editor->jumpToLine(line);
+		wclear(window);
+		editor->printBuff(false);
+		wrefresh(window);
+	}
+	catch (Editor::LineOutOfRange)
+	{
+		errorWindow = alert.alertMsg(window, "Line number is too high! Try again");
+		return;
+	}
+}
+
+void TextEditorTool::find()
+{
+	std::string phrase = getEntry("phrase");
+	wclear(window);
+	editor->findPhrase(phrase);
+	editor->printBuff(false);
 	wrefresh(window);
 }
 
 void TextEditorTool::editionHandler()
 {
+	if (errorWindow)
+	{
+		wclear(errorWindow);
+		wrefresh(errorWindow);
+		delwin(errorWindow);
+		errorWindow = nullptr;
+		return;
+	}
 	wclear(window);
 	std::string key = getEntry("KEY");
 	std::smatch result;
@@ -109,7 +156,7 @@ void TextEditorTool::editionHandler()
 		tempX = atoi(key.substr(1, key.find(",") - 1).c_str());
 		tempY = atoi(key.substr(key.find(",") + 1, (key.length() - key.find(",") - 2)).c_str());
 
-		editor->printBuff();
+		editor->printBuff(false);
 		//editor->x = tempX;
 		//editor->y = tempY;
 		wmove(window, tempY, tempX);
@@ -118,19 +165,27 @@ void TextEditorTool::editionHandler()
 	{
 		if (editor)
 		{
-			this->editor->window = this->window;
-			this->editor->printBuff();
+			editor->window = window;
+			editor->printBuff(true);
 		}
 	}
 	else if (key == "<CTRL+Z>")
+	{
 		editor->handleUndoRedo(0);
-
+		editor->printBuff(false);
+	}
 	else if (key == "<CTRL+Y>")
+	{
 		editor->handleUndoRedo(1);
+		editor->printBuff(false);
+	}
 	else
 	{
-		this->editor->handleInput(key);
-		this->editor->printBuff();
+		setEntry("IS_SAVED", "NO");
+		editor->handleInput(key);
+		editor->printBuff(false);
 	}
+
+	wchgat(window, 1, A_ATTRIBUTES, COLOR_WHITE, NULL);
 	wrefresh(window);
 }

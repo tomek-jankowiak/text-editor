@@ -168,6 +168,7 @@
     <ClInclude Include="BaseTool.h" />
     <ClInclude Include="Buffer.h" />
     <ClInclude Include="Editor.h" />
+    <ClInclude Include="ErrorAlert.h" />
     <ClInclude Include="TextEditorTool.h" />
   </ItemGroup>
   <ItemGroup>
@@ -193,6 +194,7 @@
     <ClCompile Include="..\mcedit\Window.cpp" />
     <ClCompile Include="Buffer.cpp" />
     <ClCompile Include="Editor.cpp" />
+    <ClCompile Include="ErrorAlert.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="TextEditorTool.cpp" />
   </ItemGroup>

@@ -13,6 +13,7 @@ int main()
 	backend->bind(".Edition.Undo", [&tool]() {tool->undo(); }, "Undo changes");
 	backend->bind(".Edition.Redo", [&tool]() {tool->redo(); }, "Redo changes");
 	backend->bind(".Edition.Jump to${Line number:|lineNumber}", [&tool]() {tool->jumpTo(); }, "Jump to line");
+	backend->bind(".Edition.Find${Searched phrase:|phrase}", [&tool]() {tool->find(); }, "Search phrase in text");
 	backend->bind("<EDITION>", [&tool]() {tool->editionHandler(); }, "");
 	backend->start();
 	delete backend;

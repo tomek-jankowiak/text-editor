@@ -11,7 +11,6 @@ class Buffer
 	std::vector<std::string> bufferCopy;
 	std::stack<int*> cursorPosChangesUndo;
 	std::stack<int*> cursorPosChangesRedo;
-
 	void copyBuffer();
 
 public:
@@ -19,13 +18,13 @@ public:
 
 	std::vector<std::string> lines;
 
-	int cursorPos[2];
+	int currCursPos[2], prevCursPos[2];
 
 	void instertLine(std::string, int);
 	void appendLine(std::string);
 	void removeLine(int);
 	std::string removeTabs(std::string);
 	void addToUndoStack(int, int);
-	void handleChange(int);
+	void handleChange(int, int, int);
 };
 

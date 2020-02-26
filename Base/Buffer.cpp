@@ -6,19 +6,19 @@ Buffer::Buffer()
 
 void Buffer::instertLine(std::string line, int n)
 {
-	line = this->removeTabs(line);
-	this->lines.insert(lines.begin() + n, line);
+	line = removeTabs(line);
+	lines.insert(lines.begin() + n, line);
 }
 
 void Buffer::appendLine(std::string line)
 {
-	line = this->removeTabs(line);
-	this->lines.push_back(line);
+	line = removeTabs(line);
+	lines.push_back(line);
 }
 
 void Buffer::removeLine(int n)
 {
-	this->lines.erase(lines.begin() + n);
+	lines.erase(lines.begin() + n);
 }
 
 std::string Buffer::removeTabs(std::string line)
@@ -43,13 +43,15 @@ void Buffer::addToUndoStack(int curs_x, int curs_y)
 {
 	copyBuffer();
 	undoChanges.push(bufferCopy);
-	cursorPos[0] = curs_x;
-	cursorPos[1] = curs_y;
-	cursorPosChangesUndo.push(cursorPos);
+	prevCursPos[0] = curs_x;
+	prevCursPos[1] = curs_y;
+	cursorPosChangesUndo.push(prevCursPos);
 }
 
-void Buffer::handleChange(int mode)
+void Buffer::handleChange(int mode, int curs_x, int curs_y)
 {
+	currCursPos[0] = curs_x;
+	currCursPos[1] = curs_y;
 	// 0 - undo, 1 - redo
 	switch (mode)
 	{
@@ -58,14 +60,13 @@ void Buffer::handleChange(int mode)
 			break;
 		
 		redoChanges.push(lines);
-		cursorPosChangesRedo.push(cursorPos);
-		
+		cursorPosChangesRedo.push(currCursPos);
 		lines.clear();
 		for (int i = 0; i < undoChanges.top().size(); i++)
 			lines.push_back(undoChanges.top()[i]);
-		cursorPos[0] = cursorPosChangesUndo.top()[0];
-		cursorPos[1] = cursorPosChangesUndo.top()[1];
-				
+		currCursPos[0] = cursorPosChangesUndo.top()[0];
+		currCursPos[1] = cursorPosChangesUndo.top()[1];
+		
 		cursorPosChangesUndo.pop();
 		undoChanges.pop();
 		break;
@@ -73,14 +74,14 @@ void Buffer::handleChange(int mode)
 	case 1:
 		if (redoChanges.size() == 0)
 			break;
-		undoChanges.push(lines);
-		cursorPosChangesUndo.push(cursorPos);
 
+		undoChanges.push(lines);
+		cursorPosChangesUndo.push(currCursPos);
 		lines.clear();
 		for (int i = 0; i < redoChanges.top().size(); i++)
 			lines.push_back(redoChanges.top()[i]);
-		cursorPos[0] = cursorPosChangesRedo.top()[0];
-		cursorPos[1] = cursorPosChangesRedo.top()[1];
+		currCursPos[0] = cursorPosChangesRedo.top()[0];
+		currCursPos[1] = cursorPosChangesRedo.top()[1];
 
 		cursorPosChangesRedo.pop();
 		redoChanges.pop();

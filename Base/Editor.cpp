@@ -1,11 +1,10 @@
 #include <fstream>
 #include <iostream>
+
 #include "Editor.h"
 
 Editor::Editor(WINDOW* scr)
 {
-	x = 0;
-	y = 0;
 	window = scr;
 	filename = "";
 	buff = new Buffer();
@@ -15,19 +14,23 @@ Editor::Editor(WINDOW* scr)
 
 Editor::Editor(WINDOW* scr, std::string name)
 {
-	x = 0;
-	y = 0;
 	filename = name;
 	window = scr;
-
 	buff = new Buffer();
 
 	std::fstream inputFile;
 	inputFile.open(name.c_str(), std::ios::in);
+	if (inputFile.is_open())
+	{
+		std::string temp;
+		while (getline(inputFile, temp))
+			buff->appendLine(temp);
 
-	std::string temp;
-	while (getline(inputFile, temp))
-		buff->appendLine(temp);
+		if (buff->lines.size() > LINES - 1)
+			linesUnder = buff->lines.size() - (LINES - 1);
+	}
+	else
+		throw FileNotFound();
 
 	inputFile.close();
 }
@@ -39,20 +42,44 @@ Editor::~Editor()
 
 void Editor::moveUp()
 {
-	if (y - 1 >= 0)
-		y--;
+	if (linesAbove > 0)
+	{
+		if (y - linesAbove == 0)
+		{
+			linesAbove--;
+			linesUnder++;
+		}
+		y--;		
+	}
+	else
+	{
+		if (y - 1 >= 0)
+			y--;
+	}
 	if (x >= buff->lines[y].length())
 		x = buff->lines[y].length();
-	wmove(window, y, x);
+	wmove(window, y - linesAbove, x);
 }
 
 void Editor::moveDown()
 {
-	if (y + 1 < LINES - 1 && y + 1 < buff->lines.size())
+	if (linesUnder > 0)
+	{
+		if (y - linesAbove + 1 == LINES - 1)
+		{
+			linesAbove++;
+			linesUnder--;
+		}
 		y++;
+	}
+	else
+	{
+		if (y + 1 < LINES - 1 && y + 1 < buff->lines.size())
+			y++;
+	}
 	if (x >= buff->lines[y].length())
 		x = buff->lines[y].length();
-	wmove(window, y, x);
+	wmove(window, y - linesAbove, x);
 }
 
 void Editor::moveLeft()
@@ -60,7 +87,7 @@ void Editor::moveLeft()
 	if (x - 1 >= 0)
 	{
 		x--;
-		wmove(window, y, x);
+		wmove(window, y - linesAbove, x);
 	}
 }
 
@@ -69,28 +96,55 @@ void Editor::moveRight()
 	if (x + 1 < COLS && x + 1 <= buff->lines[y].length())
 	{
 		x++;
-		wmove(window, y, x);
+		wmove(window, y - linesAbove, x);
 	}
 }
 
 void Editor::handleUndoRedo(int mode)
 {
 	wordChange = false;
-	buff->handleChange(mode);
-	x = buff->cursorPos[0];
-	y = buff->cursorPos[1];
-	wmove(window, y, x);
+	buff->handleChange(mode, x, y);
+	x = buff->currCursPos[0];
+	y = buff->currCursPos[1];
+	wmove(window, y - linesAbove, x);
 }
 
-void Editor::jumpToLine(int l)
+void Editor::jumpToLine(int line)
 {
-	if (l < buff->lines.size())
-		y = l - 1;
+	if (line <= buff->lines.size())
+	{
+		while (line < linesAbove)
+		{
+			linesAbove--;
+			if (buff->lines.size() - linesAbove >= LINES - 1)
+				linesUnder++;
+		}
+
+		while (line > (buff->lines.size() - linesUnder))
+		{
+			linesAbove++;
+			linesUnder--;
+		}
+		y = line - 1;
+	}
 	else
-		y = buff->lines.size() - 1;
+		throw LineOutOfRange();
 
 	x = 0;
-	wmove(window, l - 1, x);
+	wmove(window, y - linesAbove, x);
+}
+
+void Editor::findPhrase(std::string phrase)
+{
+	for(int i=0;i<buff->lines.size();i++)
+		if (buff->lines[i].find(phrase) != std::string::npos)
+		{
+			y = i;
+			x = buff->lines[i].find(phrase);
+			jumpToLine(y + 1);
+			break;
+		}
+	wmove(window, y - linesAbove, x);
 }
 
 void Editor::handleInput(std::string key)
@@ -127,7 +181,11 @@ void Editor::handleInput(std::string key)
 	{
 		if (x == 0 && y > 0)
 		{
-			buff->addToUndoStack(x, y);
+			buff->addToUndoStack(x, y - linesAbove);
+			if (y == linesAbove)
+				linesAbove--;
+			if (linesUnder > 0)
+				linesUnder--;
 			x = buff->lines[y - 1].length();
 			buff->lines[y - 1] += buff->lines[y];
 			deleteLine();
@@ -138,12 +196,12 @@ void Editor::handleInput(std::string key)
 		else
 		{
 			if (buff->lines[y][x - 1] == ' ' && !wordChange)
-				buff->addToUndoStack(x, y);
+				buff->addToUndoStack(x, y - linesAbove);
 			else if (buff->lines[y][x - 1] == ' ')
 				wordChange = false;
 			else if (!wordChange)
 			{
-				buff->addToUndoStack(x, y);
+				buff->addToUndoStack(x, y - linesAbove);
 				wordChange = true;
 			}
 			buff->lines[y].erase(--x, 1);
@@ -154,19 +212,21 @@ void Editor::handleInput(std::string key)
 	{
 		if (x == buff->lines[y].length() && y != buff->lines.size() - 1)
 		{
-			buff->addToUndoStack(x ,y);
+			buff->addToUndoStack(x ,y - linesAbove);
+			if(linesUnder > 0)
+				linesUnder--;
 			buff->lines[y] += buff->lines[y + 1];
 			deleteLine(y + 1);
 		}
 		else
 		{
 			if (buff->lines[y][x] == ' ' && !wordChange)
-				buff->addToUndoStack(x, y);
+				buff->addToUndoStack(x, y - linesAbove);
 			else if (buff->lines[y][x] == ' ')
 				wordChange = false;
 			else if (!wordChange)
 			{
-				buff->addToUndoStack(x, y);
+				buff->addToUndoStack(x, y - linesAbove);
 				wordChange = true;
 			}
 			buff->lines[y].erase(x, 1);
@@ -175,7 +235,12 @@ void Editor::handleInput(std::string key)
 
 	else if (key == "<ENTER>")
 	{
-		buff->addToUndoStack(x, y);
+		buff->addToUndoStack(x, y - linesAbove);
+		if (linesUnder > 0)
+			linesUnder++;
+		else
+			if (buff->lines.size() - linesAbove == LINES - 1)
+				linesUnder++;
 		wordChange = false;
 		if (x < buff->lines[y].length())
 		{
@@ -192,7 +257,7 @@ void Editor::handleInput(std::string key)
 	else if (key == "<SPACE>")
 	{
 		if (!wordChange)
-			buff->addToUndoStack(x, y);
+			buff->addToUndoStack(x, y - linesAbove);
 		
 		wordChange = false;
 		buff->lines[y].insert(x, 1, ' ');
@@ -202,7 +267,7 @@ void Editor::handleInput(std::string key)
 	else if (key == "<TAB>")
 	{
 		if(!wordChange)
-			buff->addToUndoStack(x, y);
+			buff->addToUndoStack(x, y - linesAbove);
 		
 		wordChange = false;
 		buff->lines[y].insert(x, 4, ' ');
@@ -213,7 +278,7 @@ void Editor::handleInput(std::string key)
 	{
 		if (!wordChange)
 		{
-			buff->addToUndoStack(x, y);
+			buff->addToUndoStack(x, y - linesAbove);
 			wordChange = true;
 		}
 		buff->lines[y].insert(x, 1, key[0]);
@@ -221,16 +286,15 @@ void Editor::handleInput(std::string key)
 	}
 }
 
-void Editor::printBuff()
+void Editor::printBuff(bool resize)
 {
-	for (int i = 0; i < LINES - 1; i++)
-	{
-		if (i >= buff->lines.size())
-			wmove(window, i, 0);
-		else
-			mvwprintw(window, i, 0, buff->lines[i].c_str());
-	}
-	wmove(window, y, x);
+	if(resize)
+		if (linesUnder > 0)
+			linesUnder = buff->lines.size() - (LINES - 1);
+	for (int i = linesAbove; i < (buff->lines.size() - linesUnder); i++)
+			mvwprintw(window, i - linesAbove, 0, buff->lines[i].c_str());
+	
+	wmove(window, y - linesAbove, x);
 }
 
 void Editor::deleteLine()
@@ -245,12 +309,17 @@ void Editor::deleteLine(int i)
 
 void Editor::saveFile()
 {
-	std::fstream f;
-	f.open(filename.c_str(), std::ios::out);
-	for (int i = 0; i < buff->lines.size(); i++)
-		f << buff->lines[i] << std::endl;
+	if (filename != "")
+	{
+		std::fstream f;
+		f.open(filename.c_str(), std::ios::out);
+		for (int i = 0; i < buff->lines.size(); i++)
+			f << buff->lines[i] << std::endl;
 
-	f.close();
+		f.close();
+	}
+	else
+		throw FileNotFound();
 }
 
 void Editor::saveFile(std::string saveAsFilename)
