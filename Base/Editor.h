@@ -7,9 +7,10 @@
 class Editor
 {
 private:
+	int x, y;
 	Buffer* buff;
 	std::string filename;
-	WINDOW* window;
+	bool wordChange = false;
 
 	void moveUp();
 	void moveDown();
@@ -20,11 +21,13 @@ private:
 	void deleteLine(int);
 
 public:
-	int x, y;
+	WINDOW* window;
 
 	Editor(WINDOW*);
 	Editor(WINDOW*, std::string);
 	~Editor();
+	void handleUndoRedo(int);
+	void jumpToLine(int);
 	void handleInput(std::string);
 	void printBuff();
 	void saveFile();

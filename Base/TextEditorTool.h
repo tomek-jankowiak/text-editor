@@ -1,6 +1,7 @@
 #pragma once
 
 #include <unordered_map>
+#include <regex>
 
 #include "BaseTool.h"
 #include "Editor.h"
@@ -13,6 +14,7 @@ class TextEditorTool :
 	Editor* editor = 0;
 	std::string fileName;
 	std::string saveFileName;
+	bool fileOpened = false;
 
 	void assignWindow(WINDOW*) override;
 
@@ -27,6 +29,9 @@ public:
 	void openFile();
 	void saveFile();
 	void saveFileAs();
+	void undo();
+	void redo();
+	void jumpTo();
 	void editionHandler();
 };
 
